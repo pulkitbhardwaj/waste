@@ -1,0 +1,23 @@
+{
+	"name": "blog",
+	"private": true,
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/pulkitbhardwaj/blog.git"
+	},
+	"keywords": [],
+	"author": "Pulkit Bhardwaj <pulkitbhardwaj1994@gmail.com>",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/pulkitbhardwaj/blog/issues"
+	},
+	"homepage": "https://pulkitbhardwaj.github.io/blog",
+	"workspaces": [
+		"functions",
+		"server"
+	]
+}
