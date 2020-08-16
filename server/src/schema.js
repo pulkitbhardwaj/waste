@@ -15,9 +15,10 @@ const RootQuery = new GraphQLObjectType({
 	fields: {
 		post: {
 			type: PostType,
-			args: { id: { type: GrpahQLString } },
-			resolve: (parent, args) => {
-				// code to get from firestore
+			args: { id: { type: GraphQLString } },
+			resolve: async (parent, args) => {
+				let post = await db.doc(`posts/${args.id}`).get()
+				return post.data()
 			}
 		}
 	}
