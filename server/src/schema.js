@@ -1,4 +1,9 @@
-const { GraphQLObjectType, GraphQLString, GraphQLSchema } = require('graphql')
+const {
+	GraphQLObjectType,
+	GraphQLString,
+	GraphQLSchema,
+	GraphQLList
+} = require('graphql')
 const db = require('./firestore')
 
 const PostType = new GraphQLObjectType({
@@ -17,8 +22,15 @@ const RootQuery = new GraphQLObjectType({
 			type: PostType,
 			args: { id: { type: GraphQLString } },
 			resolve: async (parent, args) => {
-				let post = await db.doc(`posts/${args.id}`).get()
+				let post = await db.collection('posts').doc(args.id).get()
 				return post.data()
+			}
+		},
+		posts: {
+			type: new GraphQLList(PostType),
+			resolve: async (parent, args) => {
+				let posts = await db.collection('posts').get()
+				return posts.docs.map(post => post.data())
 			}
 		}
 	}
