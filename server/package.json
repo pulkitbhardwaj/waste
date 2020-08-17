@@ -1,8 +1,8 @@
 {
-	"name": "server",
+	"name": "@blog/server",
 	"version": "1.0.0",
 	"description": "",
-	"main": "index.js",
+	"main": "src/index.js",
 	"scripts": {
 		"run": "nodemon src/index.js"
 	},

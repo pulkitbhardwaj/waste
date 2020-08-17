@@ -18,6 +18,7 @@
 	"homepage": "https://pulkitbhardwaj.github.io/blog",
 	"workspaces": [
 		"functions",
-		"server"
+		"server",
+		"app"
 	]
 }
