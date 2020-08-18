@@ -1,17 +1,22 @@
 import React from 'react'
-import { createUseStyles } from 'react-jss'
+import { createUseStyles, ThemeProvider } from 'react-jss'
+import PrimaryButton from './components/Button/PrimaryButton'
 
 const useStyles = createUseStyles({
-	default: {
+	app: {
 		//
 	}
 })
 
-function App() {
+const App = () => {
+	const styles = useStyles()
+
 	return (
-		<div>
-			<h1>Hello from app</h1>
-		</div>
+		<ThemeProvider theme={theme}>
+			<div className={styles.app}>
+				<PrimaryButton>MyButton</PrimaryButton>
+			</div>
+		</ThemeProvider>
 	)
 }
 

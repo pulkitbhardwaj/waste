@@ -1,8 +1,9 @@
 const {
 	GraphQLObjectType,
-	GraphQLString,
 	GraphQLSchema,
-	GraphQLList
+	GraphQLList,
+	GraphQLString,
+	GraphQLID
 } = require('graphql')
 const db = require('./firestore')
 
@@ -12,7 +13,7 @@ const db = require('./firestore')
 const PostType = new GraphQLObjectType({
 	name: 'Post',
 	fields: () => ({
-		id: { type: GraphQLString },
+		id: { type: GraphQLID },
 		title: { type: GraphQLString },
 		content: { type: GraphQLString }
 	})
@@ -26,17 +27,17 @@ const RootQuery = new GraphQLObjectType({
 	fields: {
 		post: {
 			type: PostType,
-			args: { id: { type: GraphQLString } },
+			args: { id: { type: GraphQLID } },
 			resolve: async (parent, args) => {
 				let post = await db.collection('posts').doc(args.id).get()
-				return post.data()
+				return { id: post.id, ...post.data() }
 			}
 		},
 		posts: {
 			type: new GraphQLList(PostType),
 			resolve: async (parent, args) => {
 				let posts = await db.collection('posts').get()
-				return posts.docs.map(post => post.data())
+				return posts.docs.map(post => ({ id: post.id, ...post.data() }))
 			}
 		}
 	}
@@ -55,13 +56,12 @@ const Mutation = new GraphQLObjectType({
 				content: { type: GraphQLString }
 			},
 			resolve: async (parent, args) => {
-				let post = (
-					await db.collection('posts').add({
-						title: args.title,
-						content: args.content
-					})
-				).get()
-				return (await post).data()
+				let promise = await db.collection('posts').add({
+					title: args.title,
+					content: args.content
+				})
+				let post = await promise.get()
+				return { id: post.id, ...post.data() }
 			}
 		}
 	}
